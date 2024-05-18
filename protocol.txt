@@ -1,0 +1,45 @@
+Zoznam priložených súborov:
+    offers.db - databáza pracovných ponúk vytiahnutých z domény profesia.sk
+    JobScrapper.py - skript na ťahanie pracovných ponúk z rôznych domén, spracovanie dát
+    do formy vhodnej na vloženie do databázy, zaobalenie datábazy do formy vhodnej na prácu s týmto projektom
+    initial_prompt.txt - Počiatočné inštrukcie pre GPT API na ťahanie potrebných informácií z vytiahnutých pracovných ponúk
+    create_db.sqlite3 - tvorba databázy do formy vhodnej pre tento projekt
+    WebManager.py - skript slúžiaci na tvorbu web stránky pomocou flask, primárne vsúvanie dát z databázy do html/js súborov
+    index.html - domovská stránka kde sú vidieť už spracované kariérne okruhy a zároven pre interakciu s užívaťeľom na 
+    spracovanie dalšieho okruhu na základe jeho vsupu
+    statistics.html - stránka na vykreslenie a vypísanie zaujímavých štatistík ktoré vznikli z pracovných ponúk nájdených cez uživateľov vstup, filtrované pomocou rozsahu mesačnej mzdy
+    index.css - štýl pre domovskú stránku
+    style.css - štýl pre statistics stránku
+
+
+Použité príkazy:
+Mimo rozbehania projektu (dalšia sekcia) netreba používať žiadne príkazy, projekt je plne automatizovaný a plne 
+interktívny cez webovú stránku.
+
+
+Ako rozbehať projekt:
+Najprv treba nastaviť GPT API kľúč ako environment variable:
+https://platform.openai.com/docs/quickstart
+V časti "2. Set up your API key" je návod pre Mac aj Windows.
+API kľúč : 'sk-proj-d4vZozwVwLAplgX5ixSoT3BlbkFJV12ZImViE0vBzSm8Uyy9' (treba skopírovať aj s uvodzovkami)
+V "Job offers analysis" priečinku rozbehať flask:
+export FLASK_APP = website/WebManager.py
+flask run --port=myPort
+Otvoriť stránku na "myPort".
+
+Na domovskej stránke sa dá vybrať "domain" - zatiaľ iba profesia.sk.
+Ďalej je tam "keyword" - toto je slovo ktoré by malo byť reprezentatívne
+pre kariérnu oblasť o ktorej chcete zistiť informácie. Zároveň je to slovom
+ktoré sa použije na vyhľadávanie pracovných ponúk na danej doméne.
+Na stránke sú už predpripravené takto spracovné dáta z pracovných ponúk
+pre slovo "data" - dáta sú z takmer 800 pracovných ponúk, čo sú takmer
+všetky ktoré sa na profesii pod týmto slovíčkom našli. Na vytvorenie nových štatistík 
+stačí vložiť slovíčko a kliknúť "Scrape!" tlačítko, a počkať.
+
+Použité zdroje:
+https://platform.openai.com/docs/overview
+https://developers.google.com/chart/interactive/docs/gallery
+Zdroje z predmetu Manažment dát
+Pri tvorbe projektu som využíval Github Copilot, a taktiež ChatGPT, ako aj (očividne) GPT API
+
+

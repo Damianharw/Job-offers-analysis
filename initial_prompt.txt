@@ -1,0 +1,59 @@
+I need you to extract critical information from the text. You will get HTML part of the file.
+These files are job offers from a website. I need you to extract information and format it in a specific way. 
+You will find the necessary information in inner htmls of the html file.  
+The format will be "title|company|type|wage|city|education|languages|years of experience|skills&technologies".
+First thing you should find is the title of the job offer.
+Generally things like "Data analyst manager", "Database architect", etc... 
+Second, you will find the company name.You will find the name in the context of the whole document. Write the full company name.
+
+Next you will locate the type of job offer. By type, i mean Employment type. For each job offer, you will assign the type into one of four words:
+"Part time", "Full time", "Internship" and "Other" if none of the previous dont fit.
+
+Next is wage. 
+Each job offer has either wage in hours or per month basis. 
+If per hour, multiply the number by 160. 
+You will write only the number, for example 1280. If the given wage is per month, write the given number.
+
+Next is city/location of the job. If you cant find the city, write "Unknown". You will remember the spellings of cities from previous jobs in this thread. Whenever you find a city which you already found before, you will spell it in the exact same way as before. For example, for previous job you found the city as "Žilina", and now you found "District Žilina". You will use the one that you already used, therefore "Žilina".
+
+Next is eduction. 
+This is the minimal eduction needed for the job. If job has listed more types of education, you will find the one thats the lowest. You will spell this found education as one of these possiblities:
+"High school", "Bachelor","Masters","PHD" or "Any" if none of the previous fit.You must put the result in one of these categories and write it exactly like i wrote it. Always write only one type of education.
+In general its writtein as high school with graduation, 1st degree university education, 2nd degree university education, 3rd degree university education for "high school", "bachelor", "masters" and "phd", repsectively.
+
+
+Next is languages.There might be more languages listed.By languages, i mean spoken lagnuages, like english, not computer languages. You will write this like this for example "English - B2, Slovak - C2, German - C1",
+divided by comma. If no languages are listed, default is "Slovak - C2". always write language with its level
+ If you cant find the level of langauge(B1,B2, C1,C2), you will defaultly write B2.
+ 
+Next is years of experience.
+This will be a single number and it is the required years of experience by the job offer.
+If none provided, its 0.
+
+Lastly, skills & technologies. 
+This is the most importnant one. These skills and technologies will be separated by semicolon ;.  DO NOT use human languages like "english-b2" in skills&technologies.
+Each element should be very short, 1-3 words, and it must be consistent. Out of all skills&technologies you found for one job offer, you will choose at most 8 most important and write them. If less than 8, write all.
+You will remember skills from previous job offers you already made. For each new skill you want to write, if you already found the skill before, spell it in same way you spelled it before. For example, in this thread you alredy found "Power BI", in this new job offer, you found "BI", but thats the same technology and you already listed it before, so use "Power BI",
+Example: You will want to group such things as for example "Communcation with people at decent level" and "Good explanatory capabilites" into one consistent word, such as communication. Always try to reduce more words into one or two that describes it very good, and maybe check if you alredy listed conceptually same skill or technology before.
+At the same time, you will want to create different categories for seemingly different things, mainly technologies. For example, Azure and Aws are different technologies so you will list them separately. 
+When it comes to technologies, be as specific as you can, up to name of the program they require.
+
+For example, put PostgreSQL and microsoftSQL are 2 differenet technologies.Try to extract concrete specific technologies, such as azure, aws, excel etc. 
+In case of skills, always first check if its not the same thing as something that you already listed, just reworded, and if not, 
+then create a new category, which is again few self explanatory words depicting the actual skill. 
+Another example, if there is sentence that "Good skills with data management required", you will wrap it as "Data management". 
+If not sure whether its clear distinction, add 2 separate categories, for example, 
+"Machine learning experience required with specilization in neural networks", divide it into two, "Machine learning" and "Neural networks", add both. Now the output format of all this, you will write this as :
+"tech&skill1;tech&skill2;....;tech&skilln". Where tech&skilli is the ith skill or technology you found/listed.
+
+All of these you will write as the format mentioned at the beginning, where each field is separated by "|". for each field, you will write it in a format described.
+Dont write anything else but this 1 line, no "Here is blah blah". IMPORTANT Keep all in english even when texts may be in different languages.
+
+
+Remember how you wrote the things in past offers. If you already wrote "MS Excel" as a skill, and you see "Microsoft Excel",
+be consistent and write the one that you already used, therefore "MS Excel". This goes for all the skills and cities too.
+
+!important Remember the spellings of already created skills and technologies in this thread. if you find a new skill,
+first check if you can write it as a skill you already created, if yes, spell it exactly like that, if not, only then create new name
+
+Ignore benefits in the job offer, dont mention them.

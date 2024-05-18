@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+    <title>Statistics</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+    <h1>Statistics for keyword "{{fieldName}}" on domain profesia.sk</h1>
+    <p style="text-align: center; font-size: 20px;">Total jobs found: {{count}}</p>
+    <div id="slider-div"></div>
+    <div id="statistics">
+        <div class="grid-item">
+            <h2>Wage</h2>
+            <p>Minimum monthly wage: {{wage[0]}}€<br><span class="job-title">title: "{{wage[4]}}"</span></p>
+            <p>Maximum monthly wage: {{wage[1]}}€<br><span class="job-title">title: "{{wage[5]}}"</span></p>
+            <p>Average monthly wage: {{wage[2]}}€</p>
+            <p>Std. dev. of monthly wage: {{wage[3]}}€</p>
+        </div>
+        <div class="grid-item">
+            <h2>Employement type</h2>
+            {% for type in types %}
+                <p>Number of {{type[0]}} job offers: {{type[1]}}</p>
+            {% endfor %}
+            
+        </div>
+        <div class="grid-item" style="position: relative;">
+            <h2>Skills</h2>
+            <div id="skills-div"></div>
+        </div>
+        <div class="grid-item">
+            <h2>Education<br><span class="job-title">Minimum required education</span></h2>
+            {% for edu in education %}
+                <p>{{edu[0]}}: {{edu[1]}}</p>
+            {% endfor %}
+        </div>
+        <div class="grid-item" style="position: relative;">
+            <h2>Location</h2>
+            <div id="location-div"></div>
+        </div>
+        <div class="grid-item" style="position: relative;">
+            <h2>Experience<br><span class="job-title">Number of required years of experience</span></h2>
+            <div id="experience-div"></div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['controls', 'corechart']});
+    google.charts.setOnLoadCallback(drawFilter);
+    if (parseInt('{{count}}') == 0){
+        document.getElementById("statistics").style.display = "none";
+        console.log("No data to display");
+    }
+    else{
+        google.charts.setOnLoadCallback(drawBar);
+        google.charts.setOnLoadCallback(drawDonut);
+        google.charts.setOnLoadCallback(drawColumnBar);
+    }      
+
+    function drawColumnBar() {
+        var data = google.visualization.arrayToDataTable([
+            ["City", "Number of job offers"],
+            {% for city in location %}
+                ['{{city[0]}}', parseInt('{{city[1]}}')],
+            {% endfor %}
+        ]);
+
+        var view = new google.visualization.DataView(data);
+
+        var options = {
+            width: 700,
+            height: 500,
+            bar: {groupWidth: "95%"},
+            legend: { position: "none" },
+            backgroundColor: 'transparent',
+            hAxis: {
+                gridlines: {
+                    color: 'transparent'
+                }
+            },
+            vAxis: {
+                title: 'Number of job offers',
+                gridlines: {
+                    color: 'transparent'
+                }
+            }
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById("location-div"));
+        chart.draw(view, options);
+    }
+
+    function drawDonut() {
+        var data = google.visualization.arrayToDataTable([
+            ['Task', 'Number of years required'],
+            {% for exp in experience %}
+                ['{{exp[0]}} years', parseInt('{{exp[1]}}')],
+            {% endfor %}
+        ]);
+
+        var options = {
+            pieHole: 0.4,
+            backgroundColor: 'transparent',
+            legend: {position: 'none'},
+            height: 500,
+            width: 700
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('experience-div'));
+        chart.draw(data, options);
+  }
+
+    function drawBar(){
+        var data = google.visualization.arrayToDataTable([
+
+            ['Skill', 'Number of job offers'],
+            {% for skill in skills %}
+                ['{{skill[0]}}', parseInt('{{skill[1]}}')],
+            {% endfor %}
+        ]);
+
+        var options = {
+            legend: {position: 'none'},
+            backgroundColor: 'transparent',
+            hAxis: {
+                title: 'Number of job offers',
+                gridlines: {
+                    color: 'transparent'
+                }
+            },
+            height: 500,
+            width: 700,
+            vAxis: {
+                title: 'Skill',
+            }
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('skills-div'));
+        chart.draw(data, options);
+    }
+
+    function drawFilter() {
+        var data = google.visualization.arrayToDataTable([
+            ['Wage', 'value'],
+            ['Start', parseInt('{{wage[6]}}')],
+            ['End', parseInt('{{wage[7]}}')]
+        ]);
+
+        var dashboard = new google.visualization.Dashboard();
+
+        var rangeSlider = new google.visualization.ControlWrapper({
+            'controlType': 'NumberRangeFilter',
+            'containerId': 'slider-div',
+            'options': {
+                'filterColumnLabel': 'value',
+                'ui': {
+                    'labelStacking': 'horizontal',
+                    'label': 'Monthly wage range (€):'
+                    
+                }
+            }
+        });
+        
+        rangeSlider.getState().lowValue = parseInt(new URLSearchParams(window.location.search).get('min'));
+        rangeSlider.getState().highValue = parseInt(new URLSearchParams(window.location.search).get('max'));
+
+        var dummyChart = new google.visualization.ChartWrapper({
+            'chartType': 'Table',
+            'containerId': 'dummy_chart_div',
+            'options': {
+                'width': '0',
+                'height': '0',
+                'legend': 'none'
+            }
+        });
+
+        dashboard.bind(rangeSlider, dummyChart);
+        dashboard.draw(data);
+
+        google.visualization.events.addListener(rangeSlider, 'statechange', () => {
+            reloadStats(rangeSlider.getState().lowValue, rangeSlider.getState().highValue);
+        });
+    }
+
+
+    function reloadStats(minWage, maxWage){
+        window.location.href = window.location.pathname + '?min=' + minWage + '&max=' + maxWage;
+    }
+</script>
+</html>

@@ -1,0 +1,23 @@
+CREATE TABLE jobs (
+    id INTEGER PRIMARY KEY,
+    field TEXT,
+    title TEXT,
+    company TEXT,
+    location TEXT,
+    wage INTEGER,
+    type TEXT,
+    education TEXT,
+    languages TEXT,
+    experience INTEGER,
+    skills TEXT
+);
+
+CREATE TABLE skills (
+    id INTEGER PRIMARY KEY,
+    description TEXT
+);
+
+CREATE TABLE job_skills (
+    skill_id INTEGER,
+    job_id INTEGER
+);

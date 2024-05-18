@@ -1,0 +1,63 @@
+body {
+    background-color: orange;
+}
+h1 {
+    color: black;
+    text-align: center;
+    font-size: 50px;
+}
+
+#statistics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+    margin: 2rem 12rem;
+}
+
+.grid-item {
+    padding: 20px;
+    height: 400px;
+    font-size: 30px;
+    text-align: center;
+}
+
+#slider-div {
+    display: flex;
+    justify-content: center;
+}
+
+.google-visualization-controls-rangefilter-thumblabel {
+    padding: 0 20px !important;
+    color: darkred !important
+}
+
+*:focus-visible {
+    outline: none !important;
+}
+
+.job-title {
+    color:gray;
+    font-size: large;
+    position: absolute;
+    translate: -50%;
+    font-style: italic;
+}
+
+#skills-div {
+    position: absolute;
+    left:-20%;
+    top:5%;
+}
+
+#experience-div {
+    position: absolute;
+    left:-18%;
+    top:15%;
+}
+
+#location-div {
+    position: absolute;
+    left:-18%;
+    top:15%;
+}

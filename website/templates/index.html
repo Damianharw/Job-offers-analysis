@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/index.css">
+    <title>Job Scrapper</title>
+</head>
+<body>
+    <h1>Job Scrapper</h1>
+    <div>
+        <label for="domain">Domain:</label>
+        <select name="domain" id="domain">
+            <option value="profesia.sk">profesia.sk</option>
+            <option value="job.sk">WORK IN PROGESS</option>
+        </select>
+        <form method="post">
+            <label for="keyword">Keyword:</label>
+            <input type="text" id="keyword" name="keyword" required>
+            <input type="submit" value="Scrape!">
+        </form>
+    </div>
+    <h2>Results</h2>
+    <div id="results">
+        <a href="statistics/data.html">
+            <div class="flex-item">
+                <h3>"data"</h3>
+            </div>
+        </a>
+        {% for field in fields %}
+            <a href="/statistics/{{field[0]}}.html">
+                <div class="flex-item">
+                    <h3>"{{field[0]}}"</h3>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    
+</body>
+</html>
